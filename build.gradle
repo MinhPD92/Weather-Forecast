@@ -26,6 +26,7 @@ ext {
     mockito_version = "3.9.0"
     core_testing_version = "2.1.0"
     coroutine_test_version = "1.4.3"
+    dagger_version = "2.35.1"
 }
 
 allprojects {

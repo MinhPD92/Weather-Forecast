@@ -1,2 +1,4 @@
+include ':app:domain'
+include ':app:data'
 include ':app'
 rootProject.name = "Forcast Application"

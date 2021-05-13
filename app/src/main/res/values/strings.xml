@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Forcast Application</string>
+    <string name="app_name">Weather Forecast</string>
+    <string name="hint_input_city_name">Input city name here</string>
+    <string name="get_weather">Get weather</string>
+    <string name="title_date">Date:</string>
+    <string name="title_average_temperature">Average temperature:</string>
+    <string name="title_pressure">Pressure:</string>
+    <string name="title_humidity">Humidity:</string>
+    <string name="title_description">Description:</string>
+    <string name="error_unknown">Something went wrong, please try again!</string>
+    <string name="error_not_reach_minimum_character">Please input at least 3 characters.</string>
+    <string name="error_network">Connection is unstable, please check your network.</string>
 </resources>
