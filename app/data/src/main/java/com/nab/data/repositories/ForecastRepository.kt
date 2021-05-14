@@ -1,7 +1,8 @@
 package com.nab.data.repositories
 
-import android.util.Log
+import com.nab.data.DailyWeatherForecastResult
 import com.nab.data.deps.APP_ID
+import com.nab.data.extensions.runNetworkSafety
 import com.nab.data.local.LocalForecastService
 import com.nab.data.remote.ForecastService
 import com.nab.data.remote.response.ForecastResponse
@@ -13,7 +14,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 interface ForecastRepository {
-    suspend fun getDailyForecastByCityName(cityName: String): Flow<List<ForecastResponse>>
+    suspend fun getDailyForecastByCityName(cityName: String): Flow<DailyWeatherForecastResult<List<ForecastResponse>>>
 }
 
 class ForecastRepositoryImpl @Inject constructor(
@@ -23,9 +24,9 @@ class ForecastRepositoryImpl @Inject constructor(
     private val appId: String
 ) : ForecastRepository {
 
-    override suspend fun getDailyForecastByCityName(cityName: String): Flow<List<ForecastResponse>> {
+    override suspend fun getDailyForecastByCityName(cityName: String): Flow<DailyWeatherForecastResult<List<ForecastResponse>>> {
         return flow {
-            var cacheData: List<ForecastResponse>? = null
+            var cacheData: DailyWeatherForecastResult<List<ForecastResponse>>? = null
             localService.getDailyForecastByCityName(cityName)
                 .catch {
 
@@ -33,21 +34,30 @@ class ForecastRepositoryImpl @Inject constructor(
                 .collect {
                     cacheData = it
                 }
-            if (cacheData.isNullOrEmpty().not()) {
-                Log.d("Minhheo", "getDailyForecastByCityName: cache: ${cacheData}")
+            if (cacheData is DailyWeatherForecastResult.DailyWeatherForecastSuccess) {
                 emit(cacheData!!)
             } else {
-                val response =
-                    forecastService.searchDailyForecastByCityName(key = cityName, appId = appId)
-                Log.d("Minhheo", "getDailyForecastByCityName: remote: ${response.response}")
 
-                localService.cacheCityWeatherForecast(
-                    forecastResponses = response.response,
-                    cityName = cityName
-                )
-                emit(response.response)
+                val result = getDailyWeatherForecastByCityName(cityName = cityName)
+                emit(result)
             }
         }
     }
 
+    private suspend fun getDailyWeatherForecastByCityName(cityName: String): DailyWeatherForecastResult<List<ForecastResponse>> {
+        return runNetworkSafety {
+            val response =
+                forecastService.searchDailyForecastByCityName(key = cityName, appId = appId)
+            // cache response
+            cacheResponse(response = response.response,cityName = cityName)
+            DailyWeatherForecastResult.DailyWeatherForecastSuccess(response.response)
+        }
+    }
+
+    private suspend fun cacheResponse(response: List<ForecastResponse>, cityName: String) {
+        localService.cacheCityWeatherForecast(
+            forecastResponses = response,
+            cityName = cityName
+        )
+    }
 }

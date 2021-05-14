@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nab.data.DailyWeatherForecastResult
 import com.nab.domain.usecases.ClearWeatherForecastCacheUseCase
 import com.nab.domain.usecases.GetForecastDailyByCityNameUseCase
 import com.nab.forecast.dispatcherProvider.DispatcherProvider
 import com.nab.forecast.framework.dataStore.WeatherPreference
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -32,10 +32,16 @@ class MainViewModel @Inject constructor(
         queryJob = viewModelScope.launch {
             forecastDailyByCityNameUseCase.getDailyForecast(cityName)
                 .flowOn(dispatcherProvider.io())
-                .catch {
-                    _state.postValue(MainState.ErrorState(errorMessage = it.message))
-                }.collect {
-                    _state.postValue(MainState.SucceedState(it))
+                .collect {
+                    when(it){
+                        is DailyWeatherForecastResult.DailyWeatherForecastSuccess -> {
+                            _state.postValue(MainState.SucceedState(it.repsonse))
+                        }
+                        else -> {
+                            _state.postValue(MainState.ErrorState(it as DailyWeatherForecastResult.DailyWeatherForecastError))
+                        }
+                    }
+
                 }
         }
     }

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nab.data.DailyWeatherForecastResult
 import com.nab.domain.models.WeatherInfo
 import com.nab.forecast.R
 import com.nab.forecast.databinding.ActivityMainBinding
@@ -14,7 +15,6 @@ import com.nab.forecast.deps.DependenciesInjectionProvider
 import com.nab.forecast.extension.getTimeAtBeginningOfDay
 import com.nab.forecast.extension.hideKeyboard
 import com.nab.forecast.extension.setOnDebounceClickListener
-import com.nab.forecast.framework.dataStore.WeatherPreference
 import com.nab.forecast.presentation.adapter.WeatherForecastRecyclerViewAdapter
 import java.util.*
 import javax.inject.Inject
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         checkToClearCache()
     }
 
-    private fun checkToClearCache(){
+    private fun checkToClearCache() {
         val time = Calendar.getInstance().getTimeAtBeginningOfDay()
         mainViewModel.clearWeatherForecastCacheIfNeed(time)
     }
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     private fun onStateChanged(state: MainState) {
         when (state) {
             is MainState.LoadingState -> showLoading()
-            is MainState.ErrorState -> showError(state.errorMessage)
+            is MainState.ErrorState -> showError(state.errorType)
             is MainState.SucceedState -> onDataReturn(state.results)
         }
     }
@@ -81,11 +81,28 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun showError(errorMessage: String?) {
+    private fun showError(error: DailyWeatherForecastResult.DailyWeatherForecastError) {
         hideLoading()
         hideRecyclerView()
         viewBinding.tvError.visibility = View.VISIBLE
-        viewBinding.tvError.text = errorMessage ?: getString(R.string.error_unknown)
+        viewBinding.tvError.text = getErrorMessage(error)
+    }
+
+    private fun getErrorMessage(error: DailyWeatherForecastResult.DailyWeatherForecastError): String {
+        return when (error) {
+            is DailyWeatherForecastResult.NoDataFoundError -> {
+                getString(R.string.error_no_data_found)
+            }
+            is DailyWeatherForecastResult.NetWorkError -> {
+                getString(R.string.error_network)
+            }
+            is DailyWeatherForecastResult.UnCatchError -> {
+                error.errorMessage ?: getString(R.string.error_unknown)
+            }
+            else -> {
+                getString(R.string.error_unknown)
+            }
+        }
     }
 
     private fun hideRecyclerView() {
