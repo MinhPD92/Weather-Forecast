@@ -1,9 +1,12 @@
 package com.nab.data.deps
 
 import com.google.gson.Gson
+import com.nab.configurations.configs.SSLCertificates
+import com.nab.configurations.deps.BASE_URL
 import com.nab.data.remote.ForecastService
 import dagger.Module
 import dagger.Provides
+import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,8 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
-
-private const val NETWORK_BASE_URL = "NETWORK_BASE_URL"
 
 @Module
 internal class NetworkModule {
@@ -30,19 +31,19 @@ internal class NetworkModule {
 
     @Provides
     @Singleton
-    @Named(NETWORK_BASE_URL)
-    fun provideBaseUrl(): String = "https://api.openweathermap.org/"
-
-
-    @Provides
-    @Singleton
     fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        sslCertificates: SSLCertificates
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .readTimeout(30, TimeUnit.SECONDS)
             .connectTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor)
+            .certificatePinner(CertificatePinner.Builder()
+                .add(sslCertificates.domainPattern,sslCertificates.cert1)
+                .add(sslCertificates.domainPattern,sslCertificates.cert2)
+                .add(sslCertificates.domainPattern,sslCertificates.cert3)
+                .build())
             .build()
     }
 
@@ -50,7 +51,7 @@ internal class NetworkModule {
     @Singleton
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
-        @Named(NETWORK_BASE_URL)
+        @Named(BASE_URL)
         baseUrl: String,
         gson: Gson
     ): Retrofit {

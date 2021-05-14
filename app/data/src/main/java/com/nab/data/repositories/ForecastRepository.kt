@@ -1,7 +1,7 @@
 package com.nab.data.repositories
 
+import com.nab.configurations.deps.APP_ID
 import com.nab.data.DailyWeatherForecastResult
-import com.nab.data.deps.APP_ID
 import com.nab.data.extensions.runNetworkSafety
 import com.nab.data.local.LocalForecastService
 import com.nab.data.remote.ForecastService

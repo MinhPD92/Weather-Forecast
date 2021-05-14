@@ -1,3 +1,4 @@
+include ':app:configurations'
 include ':app:domain'
 include ':app:data'
 include ':app'

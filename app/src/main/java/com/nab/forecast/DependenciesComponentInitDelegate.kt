@@ -1,6 +1,8 @@
 package com.nab.forecast
 
 import android.content.Context
+import com.nab.configurations.deps.ConfigurationComponent
+import com.nab.configurations.deps.DaggerConfigurationComponent
 import com.nab.data.deps.DaggerDataLayerComponent
 import com.nab.data.deps.DataLayerComponent
 import com.nab.domain.deps.DaggerDomainLayerComponent
@@ -20,6 +22,10 @@ class DependenciesComponentInitDelegate constructor(private val context: Context
             .build()
     }
 
+    private val configurationComponent : ConfigurationComponent by lazy {
+        DaggerConfigurationComponent.builder().build()
+    }
+
     private val frameworkComponent : FrameworkComponent by lazy {
         DaggerFrameworkComponent.builder()
             .context(context)
@@ -28,6 +34,9 @@ class DependenciesComponentInitDelegate constructor(private val context: Context
 
     private val dataLayerComponent : DataLayerComponent by lazy {
         DaggerDataLayerComponent.builder()
+            .baseUrl(configurationComponent.baseUrl())
+            .sslCerts(configurationComponent.sslCertificates())
+            .appId(configurationComponent.appId())
             .localWeatherForecastService(frameworkComponent.localForecastService())
             .build()
     }

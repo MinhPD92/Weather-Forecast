@@ -11,4 +11,5 @@
     <string name="error_not_reach_minimum_character">Please input at least 3 characters.</string>
     <string name="error_network">Connection is unstable, please check your network.</string>
     <string name="error_no_data_found">No data found for this city.</string>
+    <string name="error_run_on_rooted_device">You are using rooted device that we do not support. Please try another device</string>
 </resources>

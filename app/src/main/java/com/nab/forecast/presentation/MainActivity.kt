@@ -16,6 +16,7 @@ import com.nab.forecast.extension.getTimeAtBeginningOfDay
 import com.nab.forecast.extension.hideKeyboard
 import com.nab.forecast.extension.setOnDebounceClickListener
 import com.nab.forecast.presentation.adapter.WeatherForecastRecyclerViewAdapter
+import com.scottyab.rootbeer.RootBeer
 import java.util.*
 import javax.inject.Inject
 
@@ -29,12 +30,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as DependenciesInjectionProvider).activityInjectionProvider().inject(this)
         super.onCreate(savedInstanceState)
+
+        if (isRootDevice()) {
+            Toast.makeText(this, getString(R.string.error_run_on_rooted_device), Toast.LENGTH_SHORT)
+                .show()
+            finish()
+            return
+        }
+
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         initRecyclerView()
         setupListener()
         setupObserver()
         checkToClearCache()
+    }
+
+    private fun isRootDevice(): Boolean {
+        val rootBeer = RootBeer(this)
+        return rootBeer.isRooted
     }
 
     private fun checkToClearCache() {

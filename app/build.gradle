@@ -17,6 +17,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -82,8 +83,10 @@ dependencies {
 
     implementation "androidx.datastore:datastore-preferences:$data_store_version"
 
+    implementation 'com.scottyab:rootbeer-lib:0.0.9'
 
     implementation(project(':app:data'))
     implementation(project(':app:domain'))
+    implementation(project(':app:configurations'))
 
 }
