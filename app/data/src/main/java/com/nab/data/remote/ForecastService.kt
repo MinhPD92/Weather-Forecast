@@ -9,6 +9,7 @@ interface ForecastService {
     @GET("data/2.5/forecast/daily")
     suspend fun searchDailyForecastByCityName(@Query("q") key: String,
                                               @Query("cnt") period: Int = 7,
-                                              @Query("appId") appId : String
+                                              @Query("appId") appId : String,
+                                              @Query("units") units: String = TemperatureUnit.CELSIUS.value
     ) : DailyForecastResponse
 }

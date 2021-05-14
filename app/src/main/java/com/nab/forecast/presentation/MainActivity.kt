@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nab.domain.models.WeatherInfo
 import com.nab.forecast.R
 import com.nab.forecast.databinding.ActivityMainBinding
 import com.nab.forecast.deps.DependenciesInjectionProvider
+import com.nab.forecast.extension.getTimeAtBeginningOfDay
 import com.nab.forecast.extension.hideKeyboard
 import com.nab.forecast.extension.setOnDebounceClickListener
+import com.nab.forecast.framework.dataStore.WeatherPreference
 import com.nab.forecast.presentation.adapter.WeatherForecastRecyclerViewAdapter
+import java.util.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -32,6 +34,12 @@ class MainActivity : AppCompatActivity() {
         initRecyclerView()
         setupListener()
         setupObserver()
+        checkToClearCache()
+    }
+
+    private fun checkToClearCache(){
+        val time = Calendar.getInstance().getTimeAtBeginningOfDay()
+        mainViewModel.clearWeatherForecastCacheIfNeed(time)
     }
 
     private fun setupListener() {

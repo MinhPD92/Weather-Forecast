@@ -7,21 +7,34 @@ import com.nab.domain.deps.DaggerDomainLayerComponent
 import com.nab.domain.deps.DomainLayerComponent
 import com.nab.forecast.deps.AppComponent
 import com.nab.forecast.deps.DaggerAppComponent
+import com.nab.forecast.framework.deps.DaggerFrameworkComponent
+import com.nab.forecast.framework.deps.FrameworkComponent
 
 class DependenciesComponentInitDelegate constructor(private val context: Context) {
     internal val appComponent : AppComponent by lazy {
         DaggerAppComponent.builder()
             .context(context)
+            .weatherPreferences(frameworkComponent.weatherPreferences())
+            .clearWeatherForecastCachesUseCase(domainLayerComponent.clearWeatherForecastCachesUseCase())
             .dailyForecastByCityNameUseCase(domainLayerComponent.getDailyForecastByCityNameUseCase())
             .build()
     }
 
+    private val frameworkComponent : FrameworkComponent by lazy {
+        DaggerFrameworkComponent.builder()
+            .context(context)
+            .build()
+    }
+
     private val dataLayerComponent : DataLayerComponent by lazy {
-        DaggerDataLayerComponent.builder().build()
+        DaggerDataLayerComponent.builder()
+            .localWeatherForecastService(frameworkComponent.localForecastService())
+            .build()
     }
 
     private val domainLayerComponent : DomainLayerComponent by lazy {
         DaggerDomainLayerComponent.builder()
+            .localForecastRepository(frameworkComponent.localForecastRepository())
             .forecastRepository(dataLayerComponent.forecastRepository())
             .build()
     }

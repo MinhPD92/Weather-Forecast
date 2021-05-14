@@ -1,6 +1,8 @@
 package com.nab.data.deps
 
+import com.nab.data.local.LocalForecastService
 import com.nab.data.repositories.ForecastRepository
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
@@ -8,10 +10,11 @@ import javax.inject.Singleton
 @Component(modules = [NetworkModule::class, AppConfigurationModule::class, RepositoryModule::class])
 interface DataLayerComponent : DataLayerExposeApiProvider {
 
-    override fun forecastRepository(): ForecastRepository
-
     @Component.Builder
     interface Builder {
+
+        @BindsInstance
+        fun localWeatherForecastService(localForecastService: LocalForecastService): Builder
 
         fun build(): DataLayerComponent
     }

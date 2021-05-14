@@ -1,8 +1,6 @@
-package com.nab.forecast.deps
+package com.nab.forecast.framework.deps
 
 import android.content.Context
-import android.content.SharedPreferences
-import com.nab.forecast.dispatcherProvider.DispatcherProvider
 import com.nab.forecast.framework.dataStore.WeatherForecastPreferenceImpl
 import com.nab.forecast.framework.dataStore.WeatherPreference
 import dagger.Module
@@ -10,11 +8,11 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class CommonModule {
+class PreferencesModule {
 
     @Provides
     @Singleton
-    fun providerDispatcherProvider(): DispatcherProvider{
-        return DispatcherProvider()
+    fun providerPreferences(context: Context) : WeatherPreference {
+        return WeatherForecastPreferenceImpl(context)
     }
 }
