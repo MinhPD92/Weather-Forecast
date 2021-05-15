@@ -29,7 +29,7 @@ class ForecastRepositoryImpl @Inject constructor(
             var cacheData: DailyWeatherForecastResult<List<ForecastResponse>>? = null
             localService.getDailyForecastByCityName(cityName)
                 .catch {
-
+                    // catch to make sure any error from local will not interrupt flow
                 }
                 .collect {
                     cacheData = it
@@ -37,7 +37,6 @@ class ForecastRepositoryImpl @Inject constructor(
             if (cacheData is DailyWeatherForecastResult.DailyWeatherForecastSuccess) {
                 emit(cacheData!!)
             } else {
-
                 val result = getDailyWeatherForecastByCityName(cityName = cityName)
                 emit(result)
             }
@@ -49,7 +48,7 @@ class ForecastRepositoryImpl @Inject constructor(
             val response =
                 forecastService.searchDailyForecastByCityName(key = cityName, appId = appId)
             // cache response
-            cacheResponse(response = response.response,cityName = cityName)
+            cacheResponse(response = response.response, cityName = cityName)
             DailyWeatherForecastResult.DailyWeatherForecastSuccess(response.response)
         }
     }

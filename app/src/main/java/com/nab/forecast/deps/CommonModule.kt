@@ -2,6 +2,7 @@ package com.nab.forecast.deps
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.nab.forecast.dispatcherProvider.DefaultDispatcherProvider
 import com.nab.forecast.dispatcherProvider.DispatcherProvider
 import com.nab.forecast.framework.dataStore.WeatherForecastPreferenceImpl
 import com.nab.forecast.framework.dataStore.WeatherPreference
@@ -15,6 +16,6 @@ class CommonModule {
     @Provides
     @Singleton
     fun providerDispatcherProvider(): DispatcherProvider{
-        return DispatcherProvider()
+        return DefaultDispatcherProvider()
     }
 }

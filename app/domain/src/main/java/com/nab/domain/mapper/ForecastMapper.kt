@@ -10,7 +10,7 @@ import com.nab.data.remote.response.TemperatureResponse
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun ForecastResponse.toForecastInfo(): WeatherInfo {
+fun ForecastResponse.toWeatherInfo(): WeatherInfo {
     return WeatherInfo(
         time = (dt * 1000).toTimeFormat(),
         averageTemperature = temp.getAverageTempDisplay(),

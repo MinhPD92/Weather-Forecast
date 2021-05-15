@@ -12,9 +12,9 @@ import com.nab.domain.models.WeatherInfo
 import com.nab.forecast.R
 import com.nab.forecast.databinding.ActivityMainBinding
 import com.nab.forecast.deps.DependenciesInjectionProvider
-import com.nab.forecast.extension.getTimeAtBeginningOfDay
-import com.nab.forecast.extension.hideKeyboard
-import com.nab.forecast.extension.setOnDebounceClickListener
+import com.nab.forecast.extensions.getTimeAtBeginningOfDay
+import com.nab.forecast.extensions.hideKeyboard
+import com.nab.forecast.extensions.setOnDebounceClickListener
 import com.nab.forecast.presentation.adapter.WeatherForecastRecyclerViewAdapter
 import com.scottyab.rootbeer.RootBeer
 import java.util.*

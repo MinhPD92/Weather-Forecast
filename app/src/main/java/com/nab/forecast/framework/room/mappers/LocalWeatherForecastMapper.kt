@@ -4,7 +4,7 @@ import com.nab.data.remote.response.ForecastResponse
 import com.nab.data.remote.response.TemperatureResponse
 import com.nab.data.remote.response.WeatherResponse
 import com.nab.domain.DESCRIPTION_SEPARATOR
-import com.nab.forecast.framework.room.LocalWeatherInfo
+import com.nab.forecast.framework.room.model.LocalWeatherInfo
 
 fun ForecastResponse.mapToLocalWeatherInfo(cityName: String): LocalWeatherInfo {
     return LocalWeatherInfo(cityName = cityName,

@@ -1,9 +1,10 @@
-package com.nab.forecast.framework.room
+package com.nab.forecast.framework.room.repository
 
 import com.nab.data.DailyWeatherForecastResult
 import com.nab.data.local.LocalForecastService
 import com.nab.data.remote.response.ForecastResponse
 import com.nab.data.repositories.LocalForecastRepository
+import com.nab.forecast.framework.room.WeatherForecastDatabase
 import com.nab.forecast.framework.room.mappers.mapToForecastResponse
 import com.nab.forecast.framework.room.mappers.mapToLocalWeatherInfo
 import kotlinx.coroutines.flow.Flow

@@ -1,4 +1,4 @@
-package com.nab.forecast.framework.room
+package com.nab.forecast.framework.room.model
 
 import androidx.room.Entity
 

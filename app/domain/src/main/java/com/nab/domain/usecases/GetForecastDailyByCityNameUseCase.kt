@@ -1,11 +1,10 @@
 package com.nab.domain.usecases
 
 import com.nab.data.DailyWeatherForecastResult
-import com.nab.domain.mapper.toForecastInfo
+import com.nab.domain.mapper.toWeatherInfo
 import com.nab.domain.models.WeatherInfo
 import com.nab.data.repositories.ForecastRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -20,7 +19,7 @@ class GetForecastDailyByCityNameUseCaseImpl @Inject constructor(private val fore
         return forecastRepository.getDailyForecastByCityName(cityName = cityName).map {
             when (it) {
                 is DailyWeatherForecastResult.DailyWeatherForecastSuccess -> {
-                    DailyWeatherForecastResult.DailyWeatherForecastSuccess(it.repsonse.map { forecastResponse -> forecastResponse.toForecastInfo() })
+                    DailyWeatherForecastResult.DailyWeatherForecastSuccess(it.repsonse.map { forecastResponse -> forecastResponse.toWeatherInfo() })
                 }
                 else -> {
                     it as DailyWeatherForecastResult.DailyWeatherForecastError
