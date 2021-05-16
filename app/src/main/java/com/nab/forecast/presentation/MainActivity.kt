@@ -1,9 +1,11 @@
 package com.nab.forecast.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,7 @@ import com.nab.forecast.presentation.adapter.WeatherForecastRecyclerViewAdapter
 import com.scottyab.rootbeer.RootBeer
 import java.util.*
 import javax.inject.Inject
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +47,17 @@ class MainActivity : AppCompatActivity() {
         setupListener()
         setupObserver()
         checkToClearCache()
+        handleActionSearchFromKeyboard()
+    }
+
+    private fun handleActionSearchFromKeyboard(){
+        viewBinding.editQuery.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                onSearchButtonClicked()
+                return@OnEditorActionListener true
+            }
+            return@OnEditorActionListener false
+        })
     }
 
     private fun isRootDevice(): Boolean {
@@ -56,19 +70,23 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.clearWeatherForecastCacheIfNeed(time)
     }
 
+    private fun onSearchButtonClicked(){
+        val cityName = viewBinding.editQuery.text
+        if (cityName.length < 3) {
+            Toast.makeText(
+                this,
+                getString(R.string.error_not_reach_minimum_character),
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            hideKeyboard(viewBinding.editQuery)
+            mainViewModel.getDailyWeatherForecast(cityName = cityName.toString())
+        }
+    }
+
     private fun setupListener() {
         viewBinding.btnGetWeather.setOnDebounceClickListener {
-            val cityName = viewBinding.editQuery.text
-            if (cityName.length < 3) {
-                Toast.makeText(
-                    this,
-                    getString(R.string.error_not_reach_minimum_character),
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                hideKeyboard(viewBinding.editQuery)
-                mainViewModel.getDailyWeatherForecast(cityName = cityName.toString())
-            }
+            onSearchButtonClicked()
         }
     }
 
