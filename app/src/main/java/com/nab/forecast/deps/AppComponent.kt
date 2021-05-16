@@ -3,9 +3,7 @@ package com.nab.forecast.deps
 import android.content.Context
 import com.nab.domain.usecases.ClearWeatherForecastCacheUseCase
 import com.nab.domain.usecases.GetForecastDailyByCityNameUseCase
-import com.nab.forecast.framework.dataStore.WeatherPreference
-import com.nab.data.deps.DatabaseModule
-import com.nab.data.deps.LocalServiceModule
+import com.nab.data.dataStore.WeatherPreference
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton

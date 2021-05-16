@@ -8,7 +8,7 @@ import com.nab.domain.DailyWeatherForecastResult
 import com.nab.domain.usecases.ClearWeatherForecastCacheUseCase
 import com.nab.domain.usecases.GetForecastDailyByCityNameUseCase
 import com.nab.forecast.dispatcherProvider.DispatcherProvider
-import com.nab.forecast.framework.dataStore.WeatherPreference
+import com.nab.data.dataStore.WeatherPreference
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn

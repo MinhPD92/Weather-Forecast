@@ -6,7 +6,7 @@ import com.nab.domain.DailyWeatherForecastResult
 import com.nab.domain.usecases.ClearWeatherForecastCacheUseCase
 import com.nab.domain.usecases.GetForecastDailyByCityNameUseCase
 import com.nab.forecast.coroutineTestRule.CoroutineTestRule
-import com.nab.forecast.framework.dataStore.WeatherPreference
+import com.nab.data.dataStore.WeatherPreference
 import com.nab.forecast.getWeatherInfoList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf

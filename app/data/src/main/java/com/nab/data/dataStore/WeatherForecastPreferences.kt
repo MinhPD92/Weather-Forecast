@@ -1,7 +1,6 @@
-package com.nab.forecast.framework.dataStore
+package com.nab.data.dataStore
 
 import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences

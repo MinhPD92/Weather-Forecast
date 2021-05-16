@@ -1,8 +1,8 @@
-package com.nab.forecast.framework.deps
+package com.nab.data.deps
 
 import android.content.Context
-import com.nab.forecast.framework.dataStore.WeatherForecastPreferenceImpl
-import com.nab.forecast.framework.dataStore.WeatherPreference
+import com.nab.data.dataStore.WeatherForecastPreferenceImpl
+import com.nab.data.dataStore.WeatherPreference
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

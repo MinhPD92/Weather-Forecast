@@ -62,7 +62,6 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
-    implementation "androidx.datastore:datastore-preferences:$data_store_version"
     implementation "com.scottyab:rootbeer-lib:$rootbeer_version"
 
     testImplementation "org.mockito:mockito-core:$mockito_version"

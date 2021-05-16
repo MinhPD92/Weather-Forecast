@@ -10,7 +10,11 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [NetworkModule::class, RemoteRepositoryModule::class, DatabaseModule::class, LocalServiceModule::class])
+@Component(modules = [NetworkModule::class,
+    RemoteRepositoryModule::class,
+    DatabaseModule::class,
+    PreferencesModule::class,
+    LocalServiceModule::class])
 interface DataLayerComponent : DataLayerExposeApiProvider {
 
     @Component.Builder
