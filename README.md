@@ -3,15 +3,16 @@
 - Simple weather forecast app that is created with Kotlin.
 
 ## Table of content
-*[Functions](#functions). 
-*[Architecture](#architecture). 
-*[Data flow](#data-flow). 
-*[Folder structure](#folder-structure). 
-*[Technologies](#technologies). 
-*[Run](#run). 
-*[Launch](#launch). 
-*[Set up](#set-up). 
-*[License](#license). 
+* [Functions](#functions).    
+* [Architecture](#architecture).     
+* [Data flow](#data-flow).    
+* [Folder structure](#folder-structure).    
+* [Technologies](#technologies).    
+* [Check list](*check-list).    
+* [Run](#run).     
+* [Launch](#launch).     
+* [Set up](#set-up).    
+* [License](#license).     
 
 ## Functions:
 - Search weather forecast by city name in 7 days from current day
@@ -26,12 +27,12 @@
 ## Architecture:
 ![alt text](https://miro.medium.com/max/1834/1*q2AL8a9a1ZN6m5OxgLJMvg.png)
 
-As the image above, we follow clean architecture with 3 layers:
-    ### 1. App/Presentation layer:  
-    - A layer that interacts with the UI, mainly Android Stuff like Activities, Fragments, ViewModel, etc. It would include both domain and data layers.
-    ### 2. Data layer:  
+As the image above, we follow clean architecture with 3 layers:  
+### 1. App/Presentation layer:  
+    - A layer that interacts with the UI, mainly Android Stuff like Activities, Fragments, ViewModel, etc. It would include both domain and data layers.  
+   ### 2. Data layer:    
     - The data module consists of server models, mappers, API services, and repository implementations. It includes the domain layer.
-    ### 3. Domain layer:  
+   ### 3. Domain layer:    
     - The domain layer contains the business logic of the application, consists of models, use cases and repositories interface
   
   Explaination some keyword:  
