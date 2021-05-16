@@ -8,7 +8,7 @@
 * [Data flow](#data-flow).    
 * [Folder structure](#folder-structure).    
 * [Technologies](#technologies).    
-* [Check list](*check-list).    
+* [Check list](#check-list).    
 * [Run](#run).     
 * [Launch](#launch).     
 * [Set up](#set-up).    
