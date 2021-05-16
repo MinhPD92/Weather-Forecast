@@ -1,7 +1,14 @@
 package com.nab.data.deps
 
-import com.nab.data.repositories.ForecastRepository
+import com.nab.data.local.LocalForecastService
+import com.nab.domain.repository.RemoteForecastRepository
+import com.nab.domain.repository.LocalForecastRepository
 
 interface DataLayerExposeApiProvider {
-    fun forecastRepository() : ForecastRepository
+    fun remoteForecastRepository() : RemoteForecastRepository
+
+    fun localForecastService(): LocalForecastService
+
+    fun localForecastRepository(): LocalForecastRepository
+
 }

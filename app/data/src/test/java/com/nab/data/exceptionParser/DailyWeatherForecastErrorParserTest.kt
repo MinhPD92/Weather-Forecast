@@ -1,9 +1,7 @@
 package com.nab.data.exceptionParser
 
 import android.accounts.NetworkErrorException
-import com.nab.data.DailyWeatherForecastResult
-import com.nab.data.constants.NO_DATA_FOUND_ERROR_CODE
-import okhttp3.ResponseBody
+import com.nab.domain.DailyWeatherForecastResult
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Test
 import retrofit2.HttpException

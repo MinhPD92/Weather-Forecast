@@ -1,8 +1,8 @@
-package com.nab.forecast.framework.deps
+package com.nab.data.deps
 
 import com.nab.data.local.LocalForecastService
-import com.nab.data.repositories.LocalForecastRepository
-import com.nab.forecast.framework.room.repository.LocalWeatherForecastRepositoryImpl
+import com.nab.domain.repository.LocalForecastRepository
+import com.nab.data.room.repositories.LocalWeatherForecastRepositoryImpl
 import dagger.Binds
 import dagger.Module
 

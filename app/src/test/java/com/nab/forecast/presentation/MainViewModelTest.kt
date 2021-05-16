@@ -2,7 +2,7 @@ package com.nab.forecast.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.nab.data.DailyWeatherForecastResult
+import com.nab.domain.DailyWeatherForecastResult
 import com.nab.domain.usecases.ClearWeatherForecastCacheUseCase
 import com.nab.domain.usecases.GetForecastDailyByCityNameUseCase
 import com.nab.forecast.coroutineTestRule.CoroutineTestRule

@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nab.data.DailyWeatherForecastResult
+import com.nab.domain.DailyWeatherForecastResult
 import com.nab.domain.models.WeatherInfo
 import com.nab.forecast.R
 import com.nab.forecast.databinding.ActivityMainBinding

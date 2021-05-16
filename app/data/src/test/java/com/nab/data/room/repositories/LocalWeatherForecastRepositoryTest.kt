@@ -1,11 +1,11 @@
-package com.nab.forecast.framework.room.repository
+package com.nab.data.room.repositories
 
-import com.nab.data.DailyWeatherForecastResult
-import com.nab.data.remote.response.ForecastResponse
-import com.nab.forecast.*
-import com.nab.forecast.framework.room.WeatherForecastDAO
-import com.nab.forecast.framework.room.WeatherForecastDatabase
-import com.nab.forecast.framework.room.model.LocalWeatherInfo
+import com.nab.data.*
+import com.nab.domain.DailyWeatherForecastResult
+import com.nab.data.room.WeatherForecastDAO
+import com.nab.data.room.WeatherForecastDatabase
+import com.nab.data.room.entities.LocalWeatherInfo
+import com.nab.domain.models.WeatherInfo
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -51,8 +51,8 @@ class LocalWeatherForecastRepositoryTest {
     fun `verify database call add data into database`() {
         runBlocking {
             val cityName = "Saigon"
-            val mockData = listOf(getForecastResponse())
-            repository.cacheCityWeatherForecast(forecastResponses = mockData, cityName = cityName)
+            val mockData = getWeatherInfoList()
+            repository.cacheCityWeatherForecast(weatherInfoList = mockData, cityName = cityName)
             verify(weatherDatabase.weatherForecastDao()).cacheCityWeatherForecast(
                 com.nhaarman.mockitokotlin2.capture(
                     localWeatherInfoCaptor
@@ -64,10 +64,11 @@ class LocalWeatherForecastRepositoryTest {
             val localWeatherInfo = cacheData[0]
             with(localWeatherInfo) {
                 assert(this.cityName == cityName)
-                assert(tempMax == MAX_TEMP)
-                assert(tempMin == MIN_TEMP)
                 assert(humidity == HUMIDITY)
                 assert(pressure == PRESSURE)
+                assert(time == TIME)
+                assert(descriptions == DESCRIPTION)
+                assert(averageTemp == AVERAGE_TEMP)
             }
         }
     }
@@ -88,7 +89,7 @@ class LocalWeatherForecastRepositoryTest {
     }
 
     @Test
-    fun `verify get daily forecast by city name return valid ForecastResponse data`() {
+    fun `verify get daily forecast by city name return valid WeatherInfo data`() {
         runBlocking {
             val cityName = "Saigon"
             `when`(weatherDatabase.weatherForecastDao().getWeatherForecastByCityName(cityName))
@@ -97,8 +98,8 @@ class LocalWeatherForecastRepositoryTest {
             val result = repository.getDailyForecastByCityName(cityName = cityName)
             result.collect {
                 assert(it is DailyWeatherForecastResult.DailyWeatherForecastSuccess)
-                val forecastResponseList: List<ForecastResponse> =
-                    (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).repsonse
+                val forecastResponseList: List<WeatherInfo> =
+                    (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).response
 
                 assert(forecastResponseList.size == 1)
             }

@@ -1,10 +1,10 @@
-package com.nab.forecast.framework.room
+package com.nab.data.room
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.nab.forecast.framework.room.model.LocalWeatherInfo
+import com.nab.data.room.entities.LocalWeatherInfo
 
 @Dao
 interface WeatherForecastDAO {

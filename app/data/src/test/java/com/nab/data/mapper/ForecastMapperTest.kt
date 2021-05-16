@@ -1,8 +1,8 @@
-package com.nab.domain.mapper
+package com.nab.data.mapper
 
-import com.nab.domain.CELSIUS_SYMBOL
-import com.nab.domain.getForecastResponse
-import com.nab.domain.getTemperatureResponse
+import com.nab.data.constants.CELSIUS_SYMBOL
+import com.nab.data.getForecastResponse
+import com.nab.data.getTemperatureResponse
 import com.nab.domain.models.WeatherInfo
 import org.junit.Test
 

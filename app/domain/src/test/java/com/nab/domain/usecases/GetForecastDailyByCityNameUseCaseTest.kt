@@ -1,9 +1,9 @@
 package com.nab.domain.usecases
 
-import com.nab.data.DailyWeatherForecastResult
-import com.nab.data.repositories.ForecastRepository
-import com.nab.domain.getForecastResponse
+import com.nab.domain.DailyWeatherForecastResult
+import com.nab.domain.getWeatherInfoList
 import com.nab.domain.models.WeatherInfo
+import com.nab.domain.repository.RemoteForecastRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -19,7 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner
 class GetForecastDailyByCityNameUseCaseTest {
 
     @Mock
-    private lateinit var forecastRepository: ForecastRepository
+    private lateinit var forecastRepository: RemoteForecastRepository
 
     private lateinit var getForecastDailyByCityNameUseCase: GetForecastDailyByCityNameUseCase
 
@@ -55,14 +55,14 @@ class GetForecastDailyByCityNameUseCaseTest {
             val cityName = "Saigon"
             `when`(forecastRepository.getDailyForecastByCityName(cityName)).thenReturn(
                 flowOf(
-                    DailyWeatherForecastResult.DailyWeatherForecastSuccess(listOf(getForecastResponse()))
+                    DailyWeatherForecastResult.DailyWeatherForecastSuccess(getWeatherInfoList())
                 )
             )
 
             val result = getForecastDailyByCityNameUseCase.getDailyForecast(cityName)
 
             result.collect {
-                val data : List<WeatherInfo> = (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).repsonse
+                val data : List<WeatherInfo> = (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).response
                 assert(data.size == 1)
 
             }

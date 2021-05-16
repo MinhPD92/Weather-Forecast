@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nab.data.DailyWeatherForecastResult
+import com.nab.domain.DailyWeatherForecastResult
 import com.nab.domain.usecases.ClearWeatherForecastCacheUseCase
 import com.nab.domain.usecases.GetForecastDailyByCityNameUseCase
 import com.nab.forecast.dispatcherProvider.DispatcherProvider
@@ -35,7 +35,7 @@ class MainViewModel @Inject constructor(
                 .collect {
                     when(it){
                         is DailyWeatherForecastResult.DailyWeatherForecastSuccess -> {
-                            _state.postValue(MainState.SucceedState(it.repsonse))
+                            _state.postValue(MainState.SucceedState(it.response))
                         }
                         else -> {
                             _state.postValue(MainState.ErrorState(it as DailyWeatherForecastResult.DailyWeatherForecastError))

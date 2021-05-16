@@ -1,7 +1,7 @@
-package com.nab.forecast.framework.deps
+package com.nab.data.deps
 
 import android.content.Context
-import com.nab.forecast.framework.room.WeatherForecastDatabase
+import com.nab.data.room.WeatherForecastDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

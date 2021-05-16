@@ -1,11 +1,13 @@
 package com.nab.data.repositories
 
 import com.nab.configurations.deps.APP_ID
-import com.nab.data.DailyWeatherForecastResult
+import com.nab.domain.DailyWeatherForecastResult
 import com.nab.data.extensions.runNetworkSafety
 import com.nab.data.local.LocalForecastService
+import com.nab.data.mapper.toWeatherInfo
 import com.nab.data.remote.ForecastService
-import com.nab.data.remote.response.ForecastResponse
+import com.nab.domain.models.WeatherInfo
+import com.nab.domain.repository.RemoteForecastRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -13,25 +15,20 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Named
 
-interface ForecastRepository {
-    suspend fun getDailyForecastByCityName(cityName: String): Flow<DailyWeatherForecastResult<List<ForecastResponse>>>
-}
-
-class ForecastRepositoryImpl @Inject constructor(
+class RemoteForecastRepositoryImpl @Inject constructor(
     private val forecastService: ForecastService,
     private val localService: LocalForecastService,
     @Named(APP_ID)
     private val appId: String
-) : ForecastRepository {
+) : RemoteForecastRepository {
 
-    override suspend fun getDailyForecastByCityName(cityName: String): Flow<DailyWeatherForecastResult<List<ForecastResponse>>> {
+    override suspend fun getDailyForecastByCityName(cityName: String): Flow<DailyWeatherForecastResult<List<WeatherInfo>>> {
         return flow {
-            var cacheData: DailyWeatherForecastResult<List<ForecastResponse>>? = null
+            var cacheData: DailyWeatherForecastResult<List<WeatherInfo>>? = null
             localService.getDailyForecastByCityName(cityName)
                 .catch {
                     // catch to make sure any error from local will not interrupt flow
-                }
-                .collect {
+                }.collect {
                     cacheData = it
                 }
             if (cacheData is DailyWeatherForecastResult.DailyWeatherForecastSuccess) {
@@ -43,19 +40,20 @@ class ForecastRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun getDailyWeatherForecastByCityName(cityName: String): DailyWeatherForecastResult<List<ForecastResponse>> {
+    private suspend fun getDailyWeatherForecastByCityName(cityName: String): DailyWeatherForecastResult<List<WeatherInfo>> {
         return runNetworkSafety {
             val response =
                 forecastService.searchDailyForecastByCityName(key = cityName, appId = appId)
+            val weatherInfoListResponse = response.response.map { it.toWeatherInfo() }
             // cache response
-            cacheResponse(response = response.response, cityName = cityName)
-            DailyWeatherForecastResult.DailyWeatherForecastSuccess(response.response)
+            cacheResponse(response = weatherInfoListResponse, cityName = cityName)
+            DailyWeatherForecastResult.DailyWeatherForecastSuccess(weatherInfoListResponse)
         }
     }
 
-    private suspend fun cacheResponse(response: List<ForecastResponse>, cityName: String) {
+    private suspend fun cacheResponse(response: List<WeatherInfo>, cityName: String) {
         localService.cacheCityWeatherForecast(
-            forecastResponses = response,
+            weatherInfoList = response,
             cityName = cityName
         )
     }

@@ -1,9 +1,9 @@
-package com.nab.domain.mapper
+package com.nab.data.mapper
 
-import com.nab.domain.CELSIUS_SYMBOL
-import com.nab.domain.DATE_FORMAT
-import com.nab.domain.DESCRIPTION_SEPARATOR
-import com.nab.domain.PERCENT_SYMBOL
+import com.nab.data.constants.CELSIUS_SYMBOL
+import com.nab.data.constants.DATE_FORMAT
+import com.nab.data.constants.DESCRIPTION_SEPARATOR
+import com.nab.data.constants.PERCENT_SYMBOL
 import com.nab.domain.models.WeatherInfo
 import com.nab.data.remote.response.ForecastResponse
 import com.nab.data.remote.response.TemperatureResponse

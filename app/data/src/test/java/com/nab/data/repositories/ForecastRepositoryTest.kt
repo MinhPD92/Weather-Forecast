@@ -1,18 +1,18 @@
 package com.nab.data.repositories
 
-import com.nab.data.DailyWeatherForecastResult
+import com.nab.domain.DailyWeatherForecastResult
 import com.nab.data.getForecastResponse
+import com.nab.data.getWeatherInfo
 import com.nab.data.local.LocalForecastService
 import com.nab.data.remote.ForecastService
 import com.nab.data.remote.response.DailyForecastResponse
+import com.nab.domain.repository.RemoteForecastRepository
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
@@ -29,12 +29,12 @@ class ForecastRepositoryTest {
 
     private val appId = "AppID"
 
-    private lateinit var repository: ForecastRepository
+    private lateinit var repository: RemoteForecastRepository
 
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(ForecastRepositoryTest::class)
-        repository = ForecastRepositoryImpl(
+        repository = RemoteForecastRepositoryImpl(
             forecastService = forecastService,
             localService = localForecastService,
             appId = appId
@@ -50,7 +50,7 @@ class ForecastRepositoryTest {
                     flowOf(
                         DailyWeatherForecastResult.DailyWeatherForecastSuccess(
                             listOf(
-                                getForecastResponse()
+                               getWeatherInfo()
                             )
                         )
                     )
@@ -60,12 +60,12 @@ class ForecastRepositoryTest {
             resultFlow.collect {
                 assert(it is DailyWeatherForecastResult.DailyWeatherForecastSuccess)
                 val dataList =
-                    (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).repsonse
+                    (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).response
                 assert(dataList.size == 1)
             }
 
             verify(localForecastService).getDailyForecastByCityName(cityName)
-            verify(localForecastService, times(0)).cacheCityWeatherForecast(forecastResponses = anyList(), cityName = anyString())
+            verify(localForecastService, times(0)).cacheCityWeatherForecast(weatherInfoList = anyList(), cityName = anyString())
             verify(forecastService, times(0)).searchDailyForecastByCityName(key = cityName, appId = appId)
         }
     }
@@ -86,7 +86,7 @@ class ForecastRepositoryTest {
             resultFlow.collect {
                 assert(it is DailyWeatherForecastResult.DailyWeatherForecastSuccess)
                 val dataList =
-                    (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).repsonse
+                    (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).response
                 assert(dataList.size == 1)
             }
 
@@ -112,14 +112,14 @@ class ForecastRepositoryTest {
             resultFlow.collect {
                 assert(it is DailyWeatherForecastResult.DailyWeatherForecastSuccess)
                 val dataList =
-                    (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).repsonse
+                    (it as DailyWeatherForecastResult.DailyWeatherForecastSuccess).response
                 assert(dataList.size == 1)
-            }
 
-            verify(localForecastService).cacheCityWeatherForecast(
-                forecastResponses = mockForecastResponse,
-                cityName = cityName
-            )
+                verify(localForecastService).cacheCityWeatherForecast(
+                    weatherInfoList = dataList,
+                    cityName = cityName
+                )
+            }
         }
     }
 }

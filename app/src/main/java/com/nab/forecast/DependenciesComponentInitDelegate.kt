@@ -34,17 +34,17 @@ class DependenciesComponentInitDelegate constructor(private val context: Context
 
     private val dataLayerComponent : DataLayerComponent by lazy {
         DaggerDataLayerComponent.builder()
+            .context(context)
             .baseUrl(configurationComponent.baseUrl())
             .sslCerts(configurationComponent.sslCertificates())
             .appId(configurationComponent.appId())
-            .localWeatherForecastService(frameworkComponent.localForecastService())
             .build()
     }
 
     private val domainLayerComponent : DomainLayerComponent by lazy {
         DaggerDomainLayerComponent.builder()
-            .localForecastRepository(frameworkComponent.localForecastRepository())
-            .forecastRepository(dataLayerComponent.forecastRepository())
+            .localForecastRepository(dataLayerComponent.localForecastRepository())
+            .remoteForecastRepository(dataLayerComponent.remoteForecastRepository())
             .build()
     }
 }

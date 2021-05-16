@@ -1,8 +1,8 @@
 package com.nab.data.local
 
-import com.nab.data.remote.response.ForecastResponse
-import com.nab.data.repositories.ForecastRepository
+import com.nab.domain.models.WeatherInfo
+import com.nab.domain.repository.RemoteForecastRepository
 
-interface LocalForecastService : ForecastRepository{
-    suspend fun cacheCityWeatherForecast(forecastResponses: List<ForecastResponse>, cityName : String)
+interface LocalForecastService : RemoteForecastRepository {
+    suspend fun cacheCityWeatherForecast(weatherInfoList: List<WeatherInfo>, cityName : String)
 }

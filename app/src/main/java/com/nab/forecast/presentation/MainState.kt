@@ -1,6 +1,6 @@
 package com.nab.forecast.presentation
 
-import com.nab.data.DailyWeatherForecastResult
+import com.nab.domain.DailyWeatherForecastResult
 import com.nab.domain.models.WeatherInfo
 
 sealed class MainState {

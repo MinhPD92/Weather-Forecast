@@ -1,13 +1,11 @@
 package com.nab.forecast
 
+import com.nab.data.constants.CELSIUS_SYMBOL
+import com.nab.data.constants.PERCENT_SYMBOL
 import com.nab.data.remote.response.ForecastResponse
 import com.nab.data.remote.response.TemperatureResponse
 import com.nab.data.remote.response.WeatherResponse
-import com.nab.domain.CELSIUS_SYMBOL
-import com.nab.domain.DESCRIPTION_SEPARATOR
-import com.nab.domain.PERCENT_SYMBOL
 import com.nab.domain.models.WeatherInfo
-import com.nab.forecast.framework.room.model.LocalWeatherInfo
 
 const val PRESSURE = 700
 const val AVERAGE_TEMP = 20
@@ -56,21 +54,5 @@ fun getForecastResponse(): ForecastResponse {
         pressure = PRESSURE,
         humidity = HUMIDITY,
         weather = getWeatherResponse()
-    )
-}
-
-fun getLocalWeatherInfo(cityName: String): LocalWeatherInfo {
-    return LocalWeatherInfo(
-        cityName = cityName,
-        time = TIME,
-        tempMin = MIN_TEMP,
-        tempMax = MAX_TEMP,
-        tempDay = 0F,
-        tempNight = 0F,
-        tempEvening = 0F,
-        tempMorning = 0F,
-        pressure = PRESSURE,
-        humidity = HUMIDITY,
-        descriptions = "${DESCRIPTION}0$DESCRIPTION_SEPARATOR${DESCRIPTION}1"
     )
 }

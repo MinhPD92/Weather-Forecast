@@ -1,11 +1,8 @@
-package com.nab.data
-
-import com.nab.data.remote.response.ForecastResponse
-import java.lang.Exception
+package com.nab.domain
 
 sealed class DailyWeatherForecastResult<out T> {
 
-    class DailyWeatherForecastSuccess<out T : Any>(val repsonse : T) : DailyWeatherForecastResult<T>()
+    class DailyWeatherForecastSuccess<out T : Any>(val response : T) : DailyWeatherForecastResult<T>()
 
     open class DailyWeatherForecastError() : DailyWeatherForecastResult<Nothing>()
 

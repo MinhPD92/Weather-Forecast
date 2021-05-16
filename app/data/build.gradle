@@ -53,12 +53,21 @@ dependencies {
     // Gson converter
     implementation "com.squareup.retrofit2:converter-gson:$gson_converter_version"
 
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$ext_junit_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$nhaarman_mockito_version"
 
     implementation(project(":app:configurations"))
+    implementation(project(":app:domain"))
+
 }

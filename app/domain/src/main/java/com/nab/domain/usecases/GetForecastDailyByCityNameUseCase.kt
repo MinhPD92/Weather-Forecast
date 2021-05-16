@@ -1,32 +1,20 @@
 package com.nab.domain.usecases
 
-import com.nab.data.DailyWeatherForecastResult
-import com.nab.domain.mapper.toWeatherInfo
+import com.nab.domain.DailyWeatherForecastResult
 import com.nab.domain.models.WeatherInfo
-import com.nab.data.repositories.ForecastRepository
+import com.nab.domain.repository.RemoteForecastRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 interface GetForecastDailyByCityNameUseCase {
     suspend fun getDailyForecast(cityName: String): Flow<DailyWeatherForecastResult<List<WeatherInfo>>>
 }
 
-class GetForecastDailyByCityNameUseCaseImpl @Inject constructor(private val forecastRepository: ForecastRepository) :
+class GetForecastDailyByCityNameUseCaseImpl @Inject constructor(private val forecastRepository: RemoteForecastRepository) :
     GetForecastDailyByCityNameUseCase {
 
     override suspend fun getDailyForecast(cityName: String): Flow<DailyWeatherForecastResult<List<WeatherInfo>>> {
-        return forecastRepository.getDailyForecastByCityName(cityName = cityName).map {
-            when (it) {
-                is DailyWeatherForecastResult.DailyWeatherForecastSuccess -> {
-                    DailyWeatherForecastResult.DailyWeatherForecastSuccess(it.repsonse.map { forecastResponse -> forecastResponse.toWeatherInfo() })
-                }
-                else -> {
-                    it as DailyWeatherForecastResult.DailyWeatherForecastError
-                }
-            }
-        }
-
+        return forecastRepository.getDailyForecastByCityName(cityName = cityName)
     }
 
 }

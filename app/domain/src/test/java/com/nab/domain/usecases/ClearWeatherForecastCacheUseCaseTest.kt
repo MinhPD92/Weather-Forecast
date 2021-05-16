@@ -1,6 +1,6 @@
 package com.nab.domain.usecases
 
-import com.nab.data.repositories.LocalForecastRepository
+import com.nab.domain.repository.LocalForecastRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
