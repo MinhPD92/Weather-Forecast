@@ -11,7 +11,8 @@
 * [Check list](#check-list).    
 * [Run](#run).     
 * [Launch](#launch).     
-* [Set up](#set-up).    
+* [Set up](#set-up).  
+* [Things can be improved](#things-can-be-improved).    
 * [License](#license).     
 
 ## Functions:
@@ -115,6 +116,9 @@ Install on window os:
 Intall on MAC os
 * ./gradlew installDebug
 
+## Things can be improved:
+* Support another temperature display such as: Kelvin.
+* Support select duration of result, currently app just support to get 7 days from current day
 
 ## License
 
